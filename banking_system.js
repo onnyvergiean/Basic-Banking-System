@@ -20,7 +20,7 @@ class BankAccount {
       setTimeout(() => {
         this.balance += depositAmount;
         this.showMessage(
-          `Saldo berhasil ditambahkan sebesar $${depositAmount}.`
+          `Saldo berhasil ditambahkan sebesar ${depositAmount}.`
         );
         this.showBalance(this.balance);
       }, 2000);
@@ -37,7 +37,7 @@ class BankAccount {
     );
 
     if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
-      this.tampilkanPesan(
+      this.showMessage(
         'Jumlah yang dimasukkan tidak valid atau kurang dari atau sama dengan 0.'
       );
       return;
@@ -46,9 +46,7 @@ class BankAccount {
     if (withdrawAmount <= this.balance) {
       setTimeout(() => {
         this.balance -= withdrawAmount;
-        this.showBalance(
-          `Saldo berhasil dikurangi sebesar $${withdrawAmount}.`
-        );
+        this.showBalance(`Saldo berhasil dikurangi sebesar ${withdrawAmount}.`);
         this.showBalance(this.balance);
       }, 1000);
     } else {
