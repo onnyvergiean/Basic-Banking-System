@@ -46,7 +46,7 @@ class BankAccount {
     if (withdrawAmount <= this.balance) {
       setTimeout(() => {
         this.balance -= withdrawAmount;
-        this.showMessage(`Saldo berhasil dikurangi sebesar ${withdrawAmount}.`);
+        this.showBalance(`Saldo berhasil dikurangi sebesar ${withdrawAmount}.`);
         this.showBalance(this.balance);
       }, 1000);
     } else {
