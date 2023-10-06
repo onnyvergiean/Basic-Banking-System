@@ -23,7 +23,7 @@ class BankAccount {
           `Saldo berhasil ditambahkan sebesar ${depositAmount}.`
         );
         this.showBalance(this.balance);
-      }, 2000);
+      }, 1000);
       return;
     }
     this.showMessage(
