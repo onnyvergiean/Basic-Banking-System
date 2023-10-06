@@ -4,7 +4,7 @@ class BankAccount {
   }
 
   showBalance(balance) {
-    document.getElementById('saldo').textContent = balance;
+    document.getElementById('saldo').textContent = `Rp ${balance}`;
   }
 
   showMessage(message) {
@@ -15,42 +15,48 @@ class BankAccount {
     let depositAmount = parseFloat(
       prompt('Masukkan jumlah saldo yang ingin ditambah: ')
     );
-
-    if (!isNaN(depositAmount) && depositAmount > 0) {
+    try {
+      if (isNaN(depositAmount) || depositAmount <= 0) {
+        throw new Error(
+          'Jumlah yang dimasukkan tidak valid atau kurang dari atau sama dengan 0.'
+        );
+      }
       setTimeout(() => {
         this.balance += depositAmount;
-        this.showMessage(
-          `Saldo berhasil ditambahkan sebesar ${depositAmount}.`
-        );
         this.showBalance(this.balance);
+        this.showMessage(
+          `Saldo berhasil ditambahkan sebesar Rp ${depositAmount}.`
+        );
       }, 1000);
       return;
+    } catch (err) {
+      this.showMessage(err.message);
     }
-    this.showMessage(
-      'Jumlah yang dimasukkan tidak valid atau kurang dari atau sama dengan 0.'
-    );
   }
 
   withdraw() {
     let withdrawAmount = parseFloat(
       prompt('Masukkan jumlah saldo yang ingin dikurangi: ')
     );
+    try {
+      if (isNaN(withdrawAmount) || withdrawAmount <= 0)
+        throw new Error(
+          'Jumlah yang dimasukkan tidak valid atau kurang dari atau sama dengan 0.'
+        );
 
-    if (isNaN(withdrawAmount) || withdrawAmount <= 0) {
-      this.showMessage(
-        'Jumlah yang dimasukkan tidak valid atau kurang dari atau sama dengan 0.'
-      );
-      return;
-    }
+      if (withdrawAmount > this.balance) {
+        throw new Error('Saldo tidak mencukupi.');
+      }
 
-    if (withdrawAmount <= this.balance) {
       setTimeout(() => {
         this.balance -= withdrawAmount;
-        this.showMessage(`Saldo berhasil dikurangi sebesar ${withdrawAmount}.`);
         this.showBalance(this.balance);
+        this.showMessage(
+          `Saldo berhasil dikurangi sebesar Rp ${withdrawAmount}.`
+        );
       }, 1000);
-    } else {
-      this.showMessage('Saldo tidak mencukupi.');
+    } catch (err) {
+      this.showMessage(err.message);
     }
   }
 }
