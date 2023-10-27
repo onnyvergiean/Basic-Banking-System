@@ -24,6 +24,14 @@ const createTransaction = async (req, res) => {
       });
     }
 
+    if (sourceAccountId === destinationAccountId) {
+      return res.status(400).json({
+        status: 'error',
+        code: 400,
+        message: 'Source and destination accounts cannot be the same',
+      });
+    }
+
     const sourceAccount = await prisma.bankAccount.findUnique({
       where: {
         id: sourceAccountId,
