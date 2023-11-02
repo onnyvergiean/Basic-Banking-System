@@ -42,15 +42,27 @@ const createUser = async (req, res) => {
   }
 };
 
-const getUser = async (req, res) => {
+const getUsers = async (req, res) => {
   try {
-    const users = await prisma.user.findMany();
+    const { search } = req.query;
+    const page = req.query.page ? parseInt(req.query.page) : 1;
+    const limit = req.query.limit ? parseInt(req.query.limit) : 10;
+    const users = await prisma.user.findMany({
+      where: {
+        name: {
+          contains: search || '',
+          mode: 'insensitive',
+        },
+      },
+      skip: (page - 1) * limit,
+      take: limit,
+    });
 
-    if (!users) {
-      return res.status(404).json({
-        status: 'error',
-        code: 404,
-        message: 'User not found',
+    if (!users || users.length === 0) {
+      return res.status(200).json({
+        status: 'success',
+        code: 200,
+        message: 'Data not found',
       });
     }
 
@@ -207,7 +219,7 @@ const deleteUser = async (req, res) => {
 
 module.exports = {
   createUser,
-  getUser,
+  getUsers,
   getUserById,
   updateUser,
   deleteUser,
