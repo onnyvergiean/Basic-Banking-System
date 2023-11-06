@@ -40,41 +40,6 @@ const createUser = async (req, res) => {
     });
   }
 };
-const createUser = async (req, res) => {
-  try {
-    if (!req.body) {
-      return res.status(400).json({
-        status: 'error',
-        code: 400,
-        message: 'Bad Request: Request body is empty',
-      });
-    }
-
-    const { profile, ...data } = req.body;
-
-    const user = await prisma.user.create({
-      data: {
-        ...data,
-        profile: {
-          create: profile,
-        },
-      },
-    });
-
-    return res.status(201).json({
-      status: 'success',
-      code: 200,
-      message: 'Data ditambahkan!',
-      data: user,
-    });
-  } catch (error) {
-    return res.status(500).json({
-      status: 'error',
-      code: 500,
-      message: 'Internal server error',
-    });
-  }
-};
 
 const getUsers = async (req, res) => {
   try {
@@ -252,6 +217,7 @@ const deleteUser = async (req, res) => {
 };
 
 module.exports = {
+  createUser
   getUsers,
   getUserById,
   updateUser,
